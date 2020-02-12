@@ -45,5 +45,74 @@ We now check whether $D\phi$ meets the constraints, i.e. if $\lVert e_i^T D\phi 
 \begin{observation}
 	Even if the global optimum is found, the dual constraints might not be satisfied.
 \end{observation}
-Since $e_i^T D\phi = (-l/h,0)$, this suggests that we should add an edge parallel to $(1,0)$ to the graph.
+Since $e_i^T D\phi = (-l/h,0)$, this suggests that we should add an edge parallel to $(1,0)$ to the graph. We get:
+\begin{center}
+	\begin{tikzpicture}
+	\node[shape=circle,draw=black] (A) at (0,1) {A};
+	\node[shape=circle,draw=black] (B) at (0,-1) {B};
+	\node[shape=circle,draw=black] (C) at (3,0) {C};
+	\node[shape=circle,draw=black] (D) at (0,0) {D};
+	\draw[->] (A) edge (D);
+	\draw[->] (D) edge (B);
+	\draw[->] (A) edge (C);
+	\draw[->] (B) edge (C);
+	%\draw[color=gray] (0,0) -. (C);
+	\end{tikzpicture}
+\end{center}
+The optimal flow stays the same
+\begin{align*}
+f = \begin{pmatrix}
+1&0\\0&1\\0&0\\0&0
+\end{pmatrix}
+\end{align*}
+and we get optimal duals $\phi_A = (l,l)$, $\phi_B = (l,l)$, $\phi_C = (0,0)$, $\phi_D = (h,h)$. One can again directly check that all constraints are satisfied. To see if $D\phi$ is feasible, by symmetry it suffices to consider the triangle $DCA$. Here,
+\[
+D\phi = \begin{pmatrix}
+-1&l-h\\-1&l-h
+\end{pmatrix}.
+\]
+Then $\lVert e_i^T D\phi \rVert^2 = \lVert (-1,l-h) \rVert^2 = 1 + (l-h)^2 > 1$, so the dual solution is still not feasible.
+\section{Shortest path example}
+Consider
+\begin{center}
+
+\begin{tikzpicture}
+\node[shape=circle, draw=black] (A) at (0,0) {A};
+\node[shape=circle, draw=black] (B) at (1,0) {B};
+\node[shape=circle, draw=black] (C) at (0,1) {C};
+\node[shape=circle, draw=black] (D) at (1,1) {D};
+\draw[->] (A) edge (B)  edge (C);
+\draw[->] (B) edge (D);
+\draw[->] (C) edge (D);
+\draw[->] (B) edge (C);
+\end{tikzpicture}
+\end{center}
+With supply $1$ at $A$ und $-1$ at $D$. An optimal solution is
+\begin{align*}
+f = \begin{pmatrix}
+1\\0\\0\\1\\0
+\end{pmatrix}
+\end{align*}
+(where edges are ordered lexicographically). An optimal dual solution is $\phi_A = 2$, $\phi_B = 1$, $\phi_C = 1$, $\phi_D = 0$. In the triangle $BDC$, $D\phi = (-1 -1)$ which suggests an edge in the $(1,1)$-direction. In the triangle $ABC$, $D\phi = (-1 -1)$ as well. Hence, we refine the traingulation and get
+\begin{center}
+\begin{tikzpicture}
+\node[shape=circle, draw=black] (A) at (0,0) {A};
+\node[shape=circle, draw=black] (B) at (1,0) {B};
+\node[shape=circle, draw=black] (C) at (0,1) {C};
+\node[shape=circle, draw=black] (D) at (1,1) {D};
+\node[shape=circle, draw=black] (E) at (0.5,0.5) {E};
+\draw[->] (A) edge (B)  edge (C);
+\draw[->] (B) edge (D);
+\draw[->] (C) edge (D);
+\draw[->] (B) edge (E);
+\draw[->] (E) edge (C);
+\draw[->] (A) edge (E);
+\draw[->] (E) edge (D);
+\end{tikzpicture}
+\end{center}
+The optimal flow now is
+\[
+f_{AE}=f_{ED}=1
+\]
+with duals $\phi_A = \sqrt{2}$, $\phi_B = 1/\sqrt{2}$, $\phi_C = 1/\sqrt{2}$, $\phi_D = 0$, $\phi_E = 1/\sqrt{2}$. This is obviously the ``correct'' optimal solution. Consider now $D\phi$ on all $4$ triangles. In $ABE$, $D\phi = (-1/\sqrt{2},-1/\sqrt{2})$ which has norm $1$. By symmetry, this also holds for all other triangles. Hence in this example we indeed terminate with the optimal solution after one refinement.
 \end{document}
