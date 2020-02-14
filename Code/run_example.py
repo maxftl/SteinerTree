@@ -8,15 +8,16 @@ from example_library import *
 
 #Standard example with 3 vertices
 
-max_error = 0.1
+max_error = 0.05
 max_iterations = 100
 
-example = ex_shortest_path_2d()
+example = ex_shortest_path(10,10)
 
 graph = example['graph']
 objective = example['objective']
 supply = example['supply']
 dim = example['dim']
+
 
 subgradient_inequalities = objective.subdifferential0_inequalities()
 
@@ -30,6 +31,8 @@ for _ in range(max_iterations):
     plot_graph(graph)
     plot_flow(graph, result['flow'])
     plot_violations(graph, [v.dir_d for v in max_violations])
+    mark_violating_face(graph, max_error_index)
+    show_max_error(max_violations[max_error_index].error)
     plt.show()
     if max([v.error for v in max_violations]) <= max_error:
         print("Error < max_error, done")

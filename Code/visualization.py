@@ -35,3 +35,10 @@ def plot_violations(graph, violation_directions):
         dn = 0.1 * d/norm(d)
         foot = center - 0.5*dn
         plt.arrow(foot[0],foot[1],dn[0],dn[1], head_width = .03)
+
+def mark_violating_face(graph, face_id):
+    vertices = graph.V[graph.F[face_id],:]
+    plt.fill(vertices[:,0], vertices[:,1], color = 'yellow', alpha = 0.3)
+
+def show_max_error(max_error):
+    plt.suptitle('Relative max error: ' + str(max_error))
