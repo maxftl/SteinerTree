@@ -29,7 +29,7 @@ class SubmodularFunction:
     def subdifferential0_inequalities(self):
         subset_masks = [ tuple((x>>i)&1 for i in range(self.dim)) for x in range(1 << self.dim) ]
         inequalities = [ (np.array(s),self.data[s]) for s in subset_masks ]
-        inequalities += [ (-np.array(s),-self.data[s]) for s in subset_masks ]
+        #inequalities += [ (-np.array(s),-self.data[s]) for s in subset_masks ]
         return inequalities
 
 
