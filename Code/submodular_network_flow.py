@@ -69,3 +69,15 @@ def calculate_min_flow(graph, objective, supply, num_goods):
 
 def calculate_violations(dphi, subgradient_inequalities):
     return [ Violation(a,b,dot(a,dphi),(norm(dot(a,dphi))-b)/norm(a) ) for (a,b) in subgradient_inequalities if norm(a) > 0.1 ]
+
+
+'''returns indices of faces containing a vertex with non-zero flow'''
+def get_used_face_indices(graph, flow):
+    result = set()
+    for j in range(graph.num_edges):
+        f = flow[j,:]
+        if np.linalg.norm(f) < 0.1:
+            continue
+        result |= {i for i in range(graph.num_faces) if len( set(graph.F[i,:]) & set(graph.edges[j]) ) >= 1 }
+    return result
+

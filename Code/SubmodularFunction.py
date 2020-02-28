@@ -32,4 +32,8 @@ class SubmodularFunction:
         #inequalities += [ (-np.array(s),-self.data[s]) for s in subset_masks ]
         return inequalities
 
+    def evaluate(self, x):
+        chain = [i for (v,i) in sorted( (w,i) for (i,w) in enumerate(x) ) ]
+        return np.dot(x,self.subgradient(chain))
+
 
