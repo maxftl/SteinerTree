@@ -72,7 +72,7 @@ class TriGraph:
         if len(h_faces) > 1:
             raise Exception('Too many hanging faces')
         if len(h_faces) == 0:
-            print('no edges to add')
+            #print('no edges to add')
             return
         hf = h_faces[0][1]
         hf_id = h_faces[0][0]

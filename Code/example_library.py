@@ -54,3 +54,14 @@ def ex_simple_3d(q,r):
     example['supply'] = np.array( [ [1,0,0],[0,1,0],[0,0,1],[-1,-1,-1] ] )
     example['dim'] = 3
     return example
+
+def ex_steiner_tree(n_sources):
+    example = {}
+    V = np.vstack((np.hstack( (np.zeros((n_sources,1)),np.linspace(-1,1,n_sources).reshape((n_sources,1)) ) ),[3,0]))
+    F = np.array( [ [i,i+1,n_sources] for i in range(n_sources-1) ] ,dtype = np.int)
+    objective_data = dict([ ( tuple( (x>>i)&1 for i in range(n_sources)), int(x!=0) ) for x in range(1<<n_sources) ])
+    example['graph'] = TriGraph(V,F)
+    example['objective'] = SubmodularFunction(objective_data, n_sources)
+    example['dim'] = n_sources
+    example['supply'] = np.vstack( (np.eye(n_sources),-np.ones(n_sources)) )
+    return example

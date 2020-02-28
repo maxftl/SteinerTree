@@ -18,6 +18,7 @@ def calculate_min_flow(graph, objective, supply, num_goods):
     result = {}
     try:
         model = gp.Model("Network optimization")
+        model.setParam(GRB.Param.OutputFlag,False)
         flow_indices = gp.tuplelist((i,j) for i in range(graph.num_edges) for j in range(num_goods))
         pos_flow = model.addVars(flow_indices, name = 'pf')
         neg_flow = model.addVars(flow_indices, name = 'nf')
@@ -60,6 +61,7 @@ def calculate_min_flow(graph, objective, supply, num_goods):
 
         result['flow'] = np.array( [ [pos_flow[i,j].x-neg_flow[i,j].x for j in range(num_goods)] for i in range(graph.num_edges) ])
         result['phi'] = np.array( [ [div_constraints[k][j].pi for j in range(num_goods) ] for k in range(graph.num_vertices) ])
+        result['value'] = model.ObjVal
         return result
     except gp.GurobiError as e:
         print('Error code ' + str(e.errno) + ': ' + str(e))

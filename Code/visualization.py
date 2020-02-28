@@ -7,7 +7,7 @@ def plot_graph(graph):
     plt.triplot(graph.V[:,0],graph.V[:,1],graph.F, color = 'gray')
 
 def plot_flow(graph, flow):
-    colorwheel = [(1,0,0),(0,.8,0),(0,0,1)]
+    colorwheel = [(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1)]
     eps = 1e-1
     shift_fac = 1e-2
     for i in range(graph.num_edges):

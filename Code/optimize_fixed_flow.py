@@ -29,11 +29,12 @@ def optimize_fixed_flow(topo_graph, eps = .01, precision = 1e-5):
     X0 = np.copy(topo_graph.positions)
     f = lambda X: np.dot(topo_graph.costs,relaxed_norm(np.dot(D,X)))
     grad_f = lambda X: np.dot(C,grad_relaxed_norm(np.dot(D,X)))
-    for _ in range(n_iterations):
+    for iteration in range(n_iterations):
         grad_val = grad_f(X0)
         step_size = armijo_rule(f,grad_val,X0)
         X0 -= step_size*grad_val
         if np.linalg.norm(grad_val) < precision:
+            print('Optimized vertex positions in ' + str(iteration+1) + ' iterations.')
             break
     topo_graph.positions = X0
 
