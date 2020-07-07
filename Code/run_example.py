@@ -14,7 +14,7 @@ from triangulation import *
 max_error = 0.005
 max_iterations = 100
 
-example = ex_steiner_tree(4)
+example = ex_steiner_tree(2)
 
 graph = example['graph']
 objective = example['objective']
@@ -40,11 +40,14 @@ for c in range(max_iterations):
         elif weight_by_area:
             max_violations[j].error *= np.abs(np.linalg.det(graph.V[graph.F[j,(1,2)],:]-graph.V[graph.F[j,(0,0)],:] ))
     _, max_error_index = max( (v.error,i) for i,v in enumerate(max_violations) )
-    plot_graph(graph)
-    plot_flow(graph, result['flow'])
+    fig, ax = plt.subplots(1,1+dim)
+    plot_graph(ax[0], graph)
+    plot_flow(ax[0], graph, result['flow'])
     #plot_violations(graph, [v.dir_d for v in max_violations])
-    mark_violating_face(graph, max_error_index)
-    show_max_error(max_violations[max_error_index].error)
+    mark_violating_face(ax[0],graph, max_error_index)
+    show_max_error(fig, max_violations[max_error_index].error)
+    for k in range(dim):
+        plot_dual(ax[k+1],graph, result['phi'][:,k])
     plt.show()
     if result['value'] <= 0.999*last_obj_val:
         print('Optimize vertex positions')

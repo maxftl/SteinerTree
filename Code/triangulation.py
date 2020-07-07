@@ -1,8 +1,14 @@
 import numpy as np
 from TopoGraph import *
 from TriGraph import *
-from scipy.spatial import Delaunay
+import triangle as tr
 
 def triangulate(topo):
-    tri = Delaunay(topo.positions)
-    return TriGraph(topo.positions,tri.simplices)
+    tri = {'vertices':topo.positions, 'segments': topo.edges}
+    triangulation = tr.triangulate(tri)
+    return TriGraph(triangulation['vertices'],triangulation['triangles'])
+
+
+
+
+

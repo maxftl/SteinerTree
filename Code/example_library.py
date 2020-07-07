@@ -56,8 +56,9 @@ def ex_simple_3d(q,r):
     return example
 
 def ex_steiner_tree(n_sources):
+    eps = .1
     example = {}
-    V = np.vstack((np.hstack( (np.zeros((n_sources,1)),np.linspace(-1,1,n_sources).reshape((n_sources,1)) ) ),[3,0]))
+    V = np.vstack((np.hstack( (np.zeros((n_sources,1)),(np.linspace(-1,1,n_sources)+eps*np.random.rand(n_sources)).reshape((n_sources,1)) ) ),[3,0]))
     F = np.array( [ [i,i+1,n_sources] for i in range(n_sources-1) ] ,dtype = np.int)
     objective_data = dict([ ( tuple( (x>>i)&1 for i in range(n_sources)), int(x!=0) ) for x in range(1<<n_sources) ])
     example['graph'] = TriGraph(V,F)
